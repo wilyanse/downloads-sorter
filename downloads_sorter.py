@@ -1,5 +1,6 @@
 import os
 import shutil
+import logging
 
 # Define file type categories and their corresponding folders
 file_types = {
@@ -15,7 +16,7 @@ download_folder = r"C:\Users\Admin\Downloads"
 destination_folder = r"E:\Downloads"
 
 # Iterate through files in the download folder
-def Categorize_Move(download_folder):
+def Categorize_Move(download_folder, destination_folder):
     for filename in os.listdir(download_folder):
         src_file = os.path.join(download_folder, filename)
 
@@ -33,6 +34,10 @@ def Categorize_Move(download_folder):
         if file_category is None:
             file_category = "Others"
 
+        # add case for folders
+        if os.path.isdir(src_file):
+            file_category = "ZipsAndFolders" 
+        
         # Create the destination folder if it doesn't exist
         dest_folder = os.path.join(destination_folder, file_category)
         os.makedirs(dest_folder, exist_ok=True)
@@ -40,4 +45,5 @@ def Categorize_Move(download_folder):
         dest_file = os.path.join(dest_folder, filename)
         shutil.move(src_file, dest_file)
 
-Categorize_Move(download_folder)
+
+Categorize_Move(download_folder, destination_folder)
